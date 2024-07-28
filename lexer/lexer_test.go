@@ -7,20 +7,20 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	input := `=+{},,;`
+	input := `=;(),+{}`
 
 	tests := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
 		{token.ASSIGN, "="},
-		{token.PLUS, "+"},
+		{token.SEMICOLON, ";"},
 		{token.LPAREN, "("},
 		{token.RPAREN, ")"},
+		{token.COMMA, ","},
+		{token.PLUS, "+"},
 		{token.LBRACE, "{"},
 		{token.RBRACE, "}"},
-		{token.COMMA, ","},
-		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
 	}
 
@@ -30,7 +30,7 @@ func TestNextToken(t *testing.T) {
 		tok := l.NextToken()
 
 		if tok.Type != tt.expectedType {
-			i.Fatalf("test[%d} - tokentype wrong. expected=%q, got=%q",
+			t.Fatalf("test[%d} - tokentype wrong. expected=%q, got=%q",
 				i, tt.expectedType, tok.Type)
 		}
 
