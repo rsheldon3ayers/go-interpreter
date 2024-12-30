@@ -14,15 +14,13 @@ type (
 )
 
 type Parser struct {
-	l *lexer.Lexer
+	l              *lexer.Lexer
+	errors         []string
+	prefixParseFns map[token.TokenType]prefixParseFn
+	infixParseFns  map[token.TokenType]infixParseFn
 
 	curToken  token.Token
 	peekToken token.Token
-
-	errors []string
-
-	prefixParseFns map[token.TokenType]prefixParseFn
-	infixParseFns  map[token.TokenType]infixParseFn
 }
 
 func (p *Parser) registerPrefix(tokenType token.TokenType, fn prefixParseFn) {
